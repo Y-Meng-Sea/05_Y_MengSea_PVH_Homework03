@@ -11,7 +11,7 @@ public class utils {
     static  List<StaffMember> staffMembers = new ArrayList<>();
     static Scanner scanner = new Scanner(System.in);
     static String option;
-    static int currentId = 5;
+    static int currentId = 7;
 
     // static data
     static void addStaticData(){
