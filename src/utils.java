@@ -15,25 +15,32 @@ public class utils {
 
     // static data
     static void addStaticData(){
-        staffMembers.add(new SalariedEmployee(1,"sea sea","PP",200,10));
-        staffMembers.add(new Volunteer(2,"meng meng","BMC",230));
-        staffMembers.add(new HourlySalaryEmployee(3,"KO KO","PPT",22,50));
-        staffMembers.add(new HourlySalaryEmployee(4,"Ko KO","PPT",22,50));
-        staffMembers.add(new HourlySalaryEmployee(5,"Ko KO","PPT",22,50));
+        staffMembers.add(new SalariedEmployee(1,"Shoko ","PP",250,100));
+        staffMembers.add(new Volunteer(2,"gojo","BMC",230));
+        staffMembers.add(new HourlySalaryEmployee(3,"sukura","PPT",5,30));
+        staffMembers.add(new HourlySalaryEmployee(4,"koko","Korea",12,50));
+        staffMembers.add(new Volunteer(5,"geto","japan",500));
+        staffMembers.add(new SalariedEmployee(6,"dodo","PPT",420,120));
+        staffMembers.add(new Volunteer(7,"yondo","America",410));
+
     }
 
     static void menu(){
         // validation chose option
         while (true){
-            System.out.println("==============================================");
-            System.out.println("\t\t\tSTAFF MANAGEMENT SYSTEM");
-            System.out.println("==============================================");
-            System.out.println("1. Insert Employee");
-            System.out.println("2. Update Employee");
-            System.out.println("3. Display Employee");
-            System.out.println("4. Remove Employee");
-            System.out.println("5. Exit Employee");
-            System.out.println("\n==============================================");
+            CellStyle numberStyle = new CellStyle(HorizontalAlign.center);
+            Table t = new Table(1, BorderStyle.UNICODE_ROUND_BOX_WIDE, ShownBorders.SURROUND_HEADER_AND_COLUMNS);
+            t.setColumnWidth(0, 50, 100);
+
+            t.addCell("STAFF MANAGEMENT SYSTEM",numberStyle);
+            t.addCell("1. Insert Employee");
+            t.addCell("2. Update Employee");
+            t.addCell("3. Display Employee");
+            t.addCell("4. Remove Employee");
+            t.addCell("5. Exit Employee");
+            System.out.println(t.render());
+
+            System.out.println("-------------------------------");
             System.out.print("-> Choose an option() : ");
             option = scanner.nextLine();
             boolean validOpt = option.matches("^[1-5]$");
@@ -45,23 +52,20 @@ public class utils {
         // case each options
         switch (option){
             case "1" :
-                System.out.println("Insert Employee");
                 utils.insert();
                 utils.menu();
                 break;
             case "2":
-                System.out.println("Update Employee");
                 update();
                 break;
             case "3":
-                System.out.println("Display Employee");
                 utils.display();
-                System.out.println("Press Enter to back to menu...");
+                System.out.print("Press Enter to back to menu... ");
                 System.console().readLine();
                 utils.menu();
                 break;
             case "4":
-                System.out.println("=============* Remove Employee *=============");
+                remove();
                 break;
             case "5":
                 System.out.println("\n==============================================");
@@ -102,7 +106,8 @@ public class utils {
         double salary;
         switch (choseTypeEmployee.trim()){
             case "1": // volunteer
-                System.out.println(currentId + 1);
+                System.out.println("* Inserting new Staff as Volunteer *");
+                System.out.println("New Staff ID: "+(currentId + 1));
                 System.out.print("Enter name: ");
                 name =scanner.nextLine();
                 System.out.print("Enter address: ");
@@ -115,7 +120,8 @@ public class utils {
                 System.out.println("* You added " + name + " of type Volunteer successfully! *");
                 break;
             case "2": //salary employee
-                System.out.println(currentId + 1);
+                System.out.println("* Inserting new Staff as Salary Employee *");
+                System.out.println("New Staff ID: "+ (currentId + 1));
                 System.out.print("Enter name: ");
                 name =scanner.nextLine();
                 System.out.print("Enter address: ");
@@ -130,7 +136,8 @@ public class utils {
                 System.out.println("* You added " + name + " of type Salary Employee successfully! *");
                 break;
             case "3": //Hourly Employee
-                System.out.println(currentId + 1);
+                System.out.println("* Inserting new Staff as Hourly Employee *");
+                System.out.println("New Staff ID: "+ (currentId + 1));
                 System.out.print("Enter name: ");
                 name =scanner.nextLine();
                 System.out.print("Enter address: ");
@@ -186,11 +193,11 @@ public class utils {
                 t.addCell(String.valueOf(member.id), numberStyle); // id
                 t.addCell(member.name, numberStyle); // name
                 t.addCell(member.address, numberStyle); // address
-                t.addCell(String.valueOf(((SalariedEmployee) member).getSalary()), numberStyle); // salary
-                t.addCell(String.valueOf((((SalariedEmployee) member).getBonus())), numberStyle); // bonus
+                t.addCell(String.valueOf(((SalariedEmployee) member).getSalary())+"$", numberStyle); // salary
+                t.addCell(String.valueOf((((SalariedEmployee) member).getBonus()))+"$", numberStyle); // bonus
                 t.addCell("---", numberStyle); // hour
                 t.addCell("---", numberStyle); // rate
-                t.addCell(String.valueOf(member.pay()), numberStyle); // pay
+                t.addCell(String.valueOf(member.pay())+"$", numberStyle); // pay
 
             } else if (member instanceof  HourlySalaryEmployee) {
                 t.addCell("Hourly Employee",numberStyle); // type
@@ -199,20 +206,20 @@ public class utils {
                 t.addCell(member.address, numberStyle); // address
                 t.addCell("---", numberStyle); // salary
                 t.addCell("---", numberStyle); // bonus
-                t.addCell(String.valueOf(((HourlySalaryEmployee) member).getHourWorked()), numberStyle); // hour
-                t.addCell(String.valueOf(((HourlySalaryEmployee) member).getRate()), numberStyle); // rate
-                t.addCell(String.valueOf(member.pay()), numberStyle); // pay
+                t.addCell(String.valueOf(((HourlySalaryEmployee) member).getHourWorked())+"h", numberStyle); // hour
+                t.addCell(String.valueOf(((HourlySalaryEmployee) member).getRate())+"$", numberStyle); // rate
+                t.addCell(String.valueOf(member.pay())+"$", numberStyle); // pay
 
             } else if (member instanceof Volunteer){
                 t.addCell("Volunteer Employee",numberStyle); // type
                 t.addCell(String.valueOf(member.id), numberStyle); // id
                 t.addCell(member.name, numberStyle); // name
                 t.addCell(member.address, numberStyle); // address
-                t.addCell(String.valueOf(((Volunteer) member).getSalary()), numberStyle); // salary
+                t.addCell(String.valueOf(((Volunteer) member).getSalary())+"$", numberStyle); // salary
                 t.addCell("---", numberStyle); // bonus
                 t.addCell("---", numberStyle); // hour
                 t.addCell("---", numberStyle); // rate
-                t.addCell(String.valueOf(member.pay()), numberStyle); // pay
+                t.addCell(String.valueOf(member.pay())+"$", numberStyle); // pay
             }
         });
         System.out.println(t.render());
@@ -220,7 +227,22 @@ public class utils {
 
     //remove employee logic
     static void remove(){
-        System.out.println();
+        System.out.println("=============* Remove Employee *=============");
+        System.out.print("\n=> Enter ID to remove : ");
+        int deleteId = scanner.nextInt();
+        for(int i = 0 ; i <= staffMembers.size(); i++){
+            try{
+                if(staffMembers.get(i).id == deleteId){
+                    staffMembers.remove(i);
+                    System.out.println("* ID: "+ deleteId +" has been removed successfully! *");
+                    break;
+                }
+            }catch (IndexOutOfBoundsException e){
+                System.out.println("Not found");
+            }
+
+        }
+        utils.menu();
     }
 
     // update employee logic
@@ -277,8 +299,8 @@ public class utils {
         t.addCell(String.valueOf(member.id), numberStyle); // id
         t.addCell(member.name, numberStyle); // name
         t.addCell(member.address, numberStyle); // address
-        t.addCell(String.valueOf(((Volunteer) member).getSalary()), numberStyle); // salary
-        t.addCell(String.valueOf(member.pay()), numberStyle); // pay
+        t.addCell(String.valueOf(((Volunteer) member).getSalary())+"$", numberStyle); // salary
+        t.addCell(String.valueOf(member.pay())+"$", numberStyle); // pay
         System.out.println(t.render());
         // update volunteer
         System.out.println("Choose one column to update:");
@@ -378,9 +400,9 @@ public class utils {
         t.addCell(String.valueOf(member.id), numberStyle); // id
         t.addCell(member.name, numberStyle); // name
         t.addCell(member.address, numberStyle); // address
-        t.addCell(String.valueOf(((SalariedEmployee) member).getSalary()), numberStyle); // salary
-        t.addCell(String.valueOf((((SalariedEmployee) member).getBonus())), numberStyle); // bonus
-        t.addCell(String.valueOf(member.pay()), numberStyle); // pay
+        t.addCell(String.valueOf(((SalariedEmployee) member).getSalary())+"$", numberStyle); // salary
+        t.addCell(String.valueOf((((SalariedEmployee) member).getBonus()))+"$", numberStyle); // bonus
+        t.addCell(String.valueOf(member.pay())+"$", numberStyle); // pay
         System.out.println(t.render());
         // update salary
         System.out.println("Choose one column to update:");
@@ -502,9 +524,9 @@ public class utils {
         t.addCell(String.valueOf(member.id), numberStyle); // id
         t.addCell(member.name, numberStyle); // name
         t.addCell(member.address, numberStyle); // address
-        t.addCell(String.valueOf(((HourlySalaryEmployee) member).getHourWorked()), numberStyle); // hour
-        t.addCell(String.valueOf(((HourlySalaryEmployee) member).getRate()), numberStyle); // rate
-        t.addCell(String.valueOf(member.pay()), numberStyle); // pay
+        t.addCell(String.valueOf(((HourlySalaryEmployee) member).getHourWorked())+"h", numberStyle); // hour
+        t.addCell(String.valueOf(((HourlySalaryEmployee) member).getRate())+"$", numberStyle); // rate
+        t.addCell(String.valueOf(member.pay())+"$", numberStyle); // pay
         System.out.println(t.render());
         // update salary
         System.out.println("Choose one column to update:");
