@@ -50,29 +50,34 @@ public class utils {
             System.out.println("Invalid Option");
         }
         // case each options
-        switch (option){
-            case "1" :
-                utils.insert();
-                utils.menu();
-                break;
-            case "2":
-                update();
-                break;
-            case "3":
-                utils.display();
-                System.out.print("Press Enter to back to menu... ");
-                System.console().readLine();
-                utils.menu();
-                break;
-            case "4":
-                remove();
-                break;
-            case "5":
-                System.out.println("\n==============================================");
-                System.out.println("\t\t\tThanks you 🥹🍻!!");
-                System.out.println("==============================================");
-                break;
+        try{
+            switch (option){
+                case "1" :
+                    utils.insert();
+                    utils.menu();
+                    break;
+                case "2":
+                    update();
+                    break;
+                case "3":
+                    utils.display();
+                    System.out.print("Press Enter to back to menu... ");
+                    System.console().readLine();
+                    utils.menu();
+                    break;
+                case "4":
+                    remove();
+                    break;
+                case "5":
+                    System.out.println("\n==============================================");
+                    System.out.println("\t\t\tThanks you 🥹🍻!!");
+                    System.out.println("==============================================");
+                    break;
+            }
+        }catch (Exception e){
+
         }
+
     }
 
     // insert employee logic
@@ -142,9 +147,7 @@ public class utils {
                 name =scanner.nextLine();
                 System.out.print("Enter address: ");
                 address = scanner.nextLine();
-                System.out.print("Enter Salary: ");
-                salary = scanner.nextDouble();
-                System.out.println("Enter hourlyWorking: ");
+                System.out.print("Enter hourlyWorking: ");
                 int hourlyWorking = scanner.nextInt();
                 System.out.print("Enter rate: ");
                 double rate = scanner.nextDouble();
@@ -254,7 +257,7 @@ public class utils {
         while (true){
             System.out.print("Enter or Search ID to update : ");
             ref.update = scanner.nextLine();
-            boolean valid = ref.update.matches("\\d");
+            boolean valid = ref.update.matches("\\d+");
             if (valid){
                 break;
             }
