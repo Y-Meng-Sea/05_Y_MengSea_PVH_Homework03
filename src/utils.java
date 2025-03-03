@@ -61,6 +61,7 @@ public class utils {
                     break;
                 case "3":
                     utils.display();
+//                    utils.displayWithPagination();
                     System.out.print("Press Enter to back to menu... ");
                     System.console().readLine();
                     utils.menu();
@@ -159,6 +160,120 @@ public class utils {
             case "4":
                 break;
         }
+
+    }
+    // try implement pagination
+    static void displayWithPagination(){
+        // table
+        CellStyle numberStyle = new CellStyle(HorizontalAlign.center);
+        Table t = new Table(9, BorderStyle.UNICODE_ROUND_BOX_WIDE, ShownBorders.ALL);
+        t.setColumnWidth(0, 8, 20);
+        t.setColumnWidth(1, 7, 10);
+        t.setColumnWidth(2, 9, 16);
+        t.setColumnWidth(3, 9, 16);
+        t.setColumnWidth(4, 9, 16);
+        t.setColumnWidth(5, 9, 16);
+        t.setColumnWidth(6, 9, 16);
+        t.setColumnWidth(7, 9, 16);
+        t.setColumnWidth(8, 9, 16);
+
+        // total 9 column
+        t.addCell("Type",numberStyle);
+        t.addCell("ID", numberStyle);
+        t.addCell("Name", numberStyle);
+        t.addCell("Address", numberStyle);
+        t.addCell("Salary", numberStyle);
+        t.addCell("Bonus", numberStyle);
+        t.addCell("Hour", numberStyle);
+        t.addCell("Rate", numberStyle);
+        t.addCell("Pay", numberStyle);
+
+
+        int currentPage = 0 ;
+        int pageSize = 3;
+        int totalPage = (int) Math.ceil((double) staffMembers.size()/pageSize);
+        // if 7 ele = 3 page
+
+        int start = currentPage * pageSize;
+        int end = Math.min(start + pageSize, staffMembers.size());
+
+        for (int i = start; i < end; i++) {
+            if (staffMembers.get(i) instanceof SalariedEmployee){
+                t.addCell("Salary Employee",numberStyle); // type
+                t.addCell(String.valueOf(staffMembers.get(i).id), numberStyle); // id
+                t.addCell(staffMembers.get(i).name, numberStyle); // name
+                t.addCell(staffMembers.get(i).address, numberStyle); // address
+                t.addCell(String.valueOf(((SalariedEmployee) staffMembers.get(i)).getSalary())+"$", numberStyle); // salary
+                t.addCell(String.valueOf((((SalariedEmployee) staffMembers.get(i)).getBonus()))+"$", numberStyle); // bonus
+                t.addCell("---", numberStyle); // hour
+                t.addCell("---", numberStyle); // rate
+                t.addCell(String.valueOf(staffMembers.get(i).pay())+"$", numberStyle); // pay
+            } else if (staffMembers.get(i) instanceof  HourlySalaryEmployee) {
+                t.addCell("Hourly Employee",numberStyle); // type
+                t.addCell(String.valueOf(staffMembers.get(i).id), numberStyle); // id
+                t.addCell(staffMembers.get(i).name, numberStyle); // name
+                t.addCell(staffMembers.get(i).address, numberStyle); // address
+                t.addCell("---", numberStyle); // salary
+                t.addCell("---", numberStyle); // bonus
+                t.addCell(String.valueOf(((HourlySalaryEmployee) staffMembers.get(i)).getHourWorked())+"h", numberStyle); // hour
+                t.addCell(String.valueOf(((HourlySalaryEmployee) staffMembers.get(i)).getRate())+"$", numberStyle); // rate
+                t.addCell(String.valueOf(staffMembers.get(i).pay())+"$", numberStyle); // pay
+            } else if (staffMembers.get(i) instanceof Volunteer){
+                t.addCell("Volunteer Employee",numberStyle); // type
+                t.addCell(String.valueOf(staffMembers.get(i).id), numberStyle); // id
+                t.addCell(staffMembers.get(i).name, numberStyle); // name
+                t.addCell(staffMembers.get(i).address, numberStyle); // address
+                t.addCell(String.valueOf(((Volunteer) staffMembers.get(i)).getSalary())+"$", numberStyle); // salary
+                t.addCell("---", numberStyle); // bonus
+                t.addCell("---", numberStyle); // hour
+                t.addCell("---", numberStyle); // rate
+                t.addCell(String.valueOf(staffMembers.get(i).pay())+"$", numberStyle); // pay
+            }
+        }
+        System.out.println(t.render());
+        System.out.println("Page " + (currentPage + 1) + "/" + totalPage);
+
+        System.out.println();
+
+
+        // loop to showing data
+//        staffMembers.stream().forEach((member)->{
+//
+//            if (member instanceof SalariedEmployee){
+//                t.addCell("Salary Employee",numberStyle); // type
+//                t.addCell(String.valueOf(member.id), numberStyle); // id
+//                t.addCell(member.name, numberStyle); // name
+//                t.addCell(member.address, numberStyle); // address
+//                t.addCell(String.valueOf(((SalariedEmployee) member).getSalary())+"$", numberStyle); // salary
+//                t.addCell(String.valueOf((((SalariedEmployee) member).getBonus()))+"$", numberStyle); // bonus
+//                t.addCell("---", numberStyle); // hour
+//                t.addCell("---", numberStyle); // rate
+//                t.addCell(String.valueOf(member.pay())+"$", numberStyle); // pay
+//
+//            } else if (member instanceof  HourlySalaryEmployee) {
+//                t.addCell("Hourly Employee",numberStyle); // type
+//                t.addCell(String.valueOf(member.id), numberStyle); // id
+//                t.addCell(member.name, numberStyle); // name
+//                t.addCell(member.address, numberStyle); // address
+//                t.addCell("---", numberStyle); // salary
+//                t.addCell("---", numberStyle); // bonus
+//                t.addCell(String.valueOf(((HourlySalaryEmployee) member).getHourWorked())+"h", numberStyle); // hour
+//                t.addCell(String.valueOf(((HourlySalaryEmployee) member).getRate())+"$", numberStyle); // rate
+//                t.addCell(String.valueOf(member.pay())+"$", numberStyle); // pay
+//
+//            } else if (member instanceof Volunteer){
+//                t.addCell("Volunteer Employee",numberStyle); // type
+//                t.addCell(String.valueOf(member.id), numberStyle); // id
+//                t.addCell(member.name, numberStyle); // name
+//                t.addCell(member.address, numberStyle); // address
+//                t.addCell(String.valueOf(((Volunteer) member).getSalary())+"$", numberStyle); // salary
+//                t.addCell("---", numberStyle); // bonus
+//                t.addCell("---", numberStyle); // hour
+//                t.addCell("---", numberStyle); // rate
+//                t.addCell(String.valueOf(member.pay())+"$", numberStyle); // pay
+//            }
+//        });
+//        System.out.println(t.render());
 
     }
 
